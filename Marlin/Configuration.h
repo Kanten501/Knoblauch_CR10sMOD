@@ -770,7 +770,7 @@
 // extra connectors. Leave undefined any used for non-endstop and non-probe purposes.
 #define USE_XMIN_PLUG
 #define USE_YMIN_PLUG
-#define USE_ZMIN_PLUG
+//#define USE_ZMIN_PLUG
 //#define USE_IMIN_PLUG
 //#define USE_JMIN_PLUG
 //#define USE_KMIN_PLUG
@@ -832,7 +832,7 @@
 #define I_MAX_ENDSTOP_INVERTING false // Set to true to invert the logic of the endstop.
 #define J_MAX_ENDSTOP_INVERTING false // Set to true to invert the logic of the endstop.
 #define K_MAX_ENDSTOP_INVERTING false // Set to true to invert the logic of the endstop.
-#define Z_MIN_PROBE_ENDSTOP_INVERTING false // Set to true to invert the logic of the probe.
+#define Z_MIN_PROBE_ENDSTOP_INVERTING true // Set to true to invert the logic of the probe.
 
 /**
  * Stepper Drivers
@@ -1021,10 +1021,10 @@
  * The probe replaces the Z-MIN endstop and is used for Z homing.
  * (Automatically enables USE_PROBE_FOR_Z_HOMING.)
  */
-#define Z_MIN_PROBE_USES_Z_MIN_ENDSTOP_PIN
+//#define Z_MIN_PROBE_USES_Z_MIN_ENDSTOP_PIN
 
 // Force the use of the probe for Z-axis homing
-//#define USE_PROBE_FOR_Z_HOMING
+#define USE_PROBE_FOR_Z_HOMING
 
 /**
  * Z_MIN_PROBE_PIN
@@ -1041,7 +1041,7 @@
  *      - normally-closed switches to GND and D32.
  *      - normally-open switches to 5V and D32.
  */
-//#define Z_MIN_PROBE_PIN 32 // Pin 32 is the RAMPS default
+#define Z_MIN_PROBE_PIN PA1 // Pin 32 is the RAMPS default
 
 /**
  * Probe Type
@@ -1067,7 +1067,7 @@
  * Use the nozzle as the probe, as with a conductive
  * nozzle system or a piezo-electric smart effector.
  */
-//#define NOZZLE_AS_PROBE
+#define NOZZLE_AS_PROBE
 
 /**
  * Z Servo Probe, such as an endstop switch on a rotating arm.
@@ -1170,20 +1170,20 @@
  *     |    [-]    |
  *     O-- FRONT --+
  */
-#define NOZZLE_TO_PROBE_OFFSET { -39, -13, -0.57 }
+#define NOZZLE_TO_PROBE_OFFSET { 0, 0, 0.05 }
 
 // Most probes should stay away from the edges of the bed, but
 // with NOZZLE_AS_PROBE this can be negative for a wider probing area.
-#define PROBING_MARGIN 10
+#define PROBING_MARGIN 40
 
 // X and Y axis travel speed (mm/min) between probes
-#define XY_PROBE_FEEDRATE (2000)
+#define XY_PROBE_FEEDRATE (2400)
 
 // Feedrate (mm/min) for the first approach when double-probing (MULTIPLE_PROBING == 2)
-#define Z_PROBE_FEEDRATE_FAST (400)
+#define Z_PROBE_FEEDRATE_FAST (200)
 
 // Feedrate (mm/min) for the "accurate" probe of each point
-#define Z_PROBE_FEEDRATE_SLOW (200)
+#define Z_PROBE_FEEDRATE_SLOW (100)
 
 /**
  * Probe Activation Switch
@@ -1201,7 +1201,7 @@
  * Useful for a strain gauge or piezo sensor that needs to factor out
  * elements such as cables pulling on the carriage.
  */
-//#define PROBE_TARE
+// #define PROBE_TARE
 #if ENABLED(PROBE_TARE)
   #define PROBE_TARE_TIME  200    // (ms) Time to hold tare pin
   #define PROBE_TARE_DELAY 200    // (ms) Delay after tare before
@@ -1221,7 +1221,7 @@
  * A total of 2 does fast/slow probes with a weighted average.
  * A total of 3 or more adds more slow probes, taking the average.
  */
-//#define MULTIPLE_PROBING 2
+#define MULTIPLE_PROBING 2
 //#define EXTRA_PROBING    1
 
 /**
@@ -1238,10 +1238,10 @@
  * Example: `M851 Z-5` with a CLEARANCE of 4  =>  9mm from bed to nozzle.
  *     But: `M851 Z+1` with a CLEARANCE of 2  =>  2mm from bed to nozzle.
  */
-//#define Z_CLEARANCE_DEPLOY_PROBE   10 // Z Clearance for Deploy/Stow
-#define Z_CLEARANCE_BETWEEN_PROBES  10 // Z Clearance between probe points
-#define Z_CLEARANCE_MULTI_PROBE     10 // Z Clearance between multiple probes
-#define Z_AFTER_PROBING           10 // Z position after probing is done
+#define Z_CLEARANCE_DEPLOY_PROBE   5 // Z Clearance for Deploy/Stow
+#define Z_CLEARANCE_BETWEEN_PROBES  3 // Z Clearance between probe points
+#define Z_CLEARANCE_MULTI_PROBE     3 // Z Clearance between multiple probes
+#define Z_AFTER_PROBING           5 // Z position after probing is done
 
 #define Z_PROBE_LOW_POINT          -2 // Farthest distance below the trigger-point to go before stopping
 
@@ -1270,10 +1270,10 @@
   //#define WAIT_FOR_BED_HEATER     // Wait for bed to heat back up between probes (to improve accuracy)
   //#define WAIT_FOR_HOTEND         // Wait for hotend to heat back up between probes (to improve accuracy & prevent cold extrude)
 #endif
-//#define PROBING_FANS_OFF          // Turn fans off when probing
+#define PROBING_FANS_OFF          // Turn fans off when probing
 //#define PROBING_ESTEPPERS_OFF     // Turn all extruder steppers off when probing
-//#define PROBING_STEPPERS_OFF      // Turn all steppers off (unless needed to hold position) when probing (including extruders)
-//#define DELAY_BEFORE_PROBING 200  // (ms) To prevent vibrations from triggering piezo sensors
+#define PROBING_STEPPERS_OFF      // Turn all steppers off (unless needed to hold position) when probing (including extruders)
+#define DELAY_BEFORE_PROBING 200  // (ms) To prevent vibrations from triggering piezo sensors
 
 // Require minimum nozzle and/or bed temperature for probing
 //#define PREHEAT_BEFORE_PROBING
@@ -1306,8 +1306,8 @@
 
 // @section extruder
 
-//#define DISABLE_E false             // Disable the extruder when not stepping
-//#define DISABLE_INACTIVE_EXTRUDER   // Keep only the active extruder enabled
+#define DISABLE_E false             // Disable the extruder when not stepping
+#define DISABLE_INACTIVE_EXTRUDER   // Keep only the active extruder enabled
 
 // @section machine
 
@@ -1527,9 +1527,9 @@
  */
 //#define AUTO_BED_LEVELING_3POINT
 //#define AUTO_BED_LEVELING_LINEAR
-//#define AUTO_BED_LEVELING_BILINEAR
+#define AUTO_BED_LEVELING_BILINEAR
 //#define AUTO_BED_LEVELING_UBL
-#define MESH_BED_LEVELING
+//#define MESH_BED_LEVELING
 
 /**
  * Normally G28 leaves leveling disabled on completion. Enable one of
@@ -1542,10 +1542,10 @@
 /**
  * Auto-leveling needs preheating
  */
-//#define PREHEAT_BEFORE_LEVELING
+#define PREHEAT_BEFORE_LEVELING
 #if ENABLED(PREHEAT_BEFORE_LEVELING)
-  #define LEVELING_NOZZLE_TEMP 160   // (°C) Only applies to E0 at this time
-  #define LEVELING_BED_TEMP     50
+  #define LEVELING_NOZZLE_TEMP 140   // (°C) Only applies to E0 at this time
+  #define LEVELING_BED_TEMP     60
 #endif
 
 /**
@@ -1565,6 +1565,7 @@
   // at which point movement will be level to the machine's XY plane.
   // The height can be set with M420 Z<height>
   #define ENABLE_LEVELING_FADE_HEIGHT
+  
   #if ENABLED(ENABLE_LEVELING_FADE_HEIGHT)
     #define DEFAULT_LEVELING_FADE_HEIGHT 10.0 // (mm) Default fade height.
   #endif
